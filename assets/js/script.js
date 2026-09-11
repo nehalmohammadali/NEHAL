@@ -207,43 +207,5 @@ document.addEventListener('DOMContentLoaded', function () {
     updateActiveNav();
   }
 
-  /* ---------------------------------------------------------------- */
-  /* Netlify contact form                                               */
-  /* ---------------------------------------------------------------- */
-  var contactForm = document.querySelector('.contact-form');
-  var formStatus = document.getElementById('formStatus');
-  if (contactForm && formStatus) {
-    contactForm.addEventListener('submit', function (e) {
-      e.preventDefault();
-
-      var submitButton = contactForm.querySelector('button[type="submit"]');
-      var originalButtonText = submitButton.innerHTML;
-      submitButton.disabled = true;
-      submitButton.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>&nbsp; Sending...';
-      formStatus.textContent = '';
-      formStatus.className = 'form-status';
-
-      var formData = new FormData(contactForm);
-      fetch('/', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: new URLSearchParams(formData).toString()
-      })
-      .then(function (response) {
-        if (!response.ok) throw new Error('Submission failed');
-        contactForm.reset();
-        formStatus.textContent = 'Message sent successfully! I will get back to you soon.';
-        formStatus.classList.add('success');
-      })
-      .catch(function () {
-        formStatus.textContent = 'Something went wrong. Please try again.';
-        formStatus.classList.add('error');
-      })
-      .finally(function () {
-        submitButton.disabled = false;
-        submitButton.innerHTML = originalButtonText;
-      });
-    });
-  }
 
 });
